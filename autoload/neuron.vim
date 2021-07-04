@@ -273,7 +273,7 @@ endf
 func! s:refresh_cache_callback_vim(channel, x)
 	let l:data = readfile(g:neuron_tmp_filename)
 	call job_start("rm " . g:neuron_tmp_filename)
-	call s:refresh_cache_callback(join(l:data))
+	call s:refresh_cache_callback(l:data)
 endf
 
 " neovim
