@@ -285,7 +285,12 @@ func! s:refresh_cache_callback(data)
 	if (g:neuron_debug_enable)
 		call writefile(split(a:data, "\n", 1), g:neuron_dir . 'query.json')
 	endif
-	let l:zettels = json_decode(a:data)
+	let l:zettels = []
+	if a:data isnot v:none
+		for d in a:data
+			call add(l:zettels, json_decode(d))
+		endfor
+	endif
 	call sort(l:zettels, function('util#zettel_date_sorter'))
 
 	let g:_neuron_zettels_titles_list = {}
