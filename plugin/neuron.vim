@@ -71,7 +71,7 @@ if !exists("g:neuron_no_mappings") || ! g:neuron_no_mappings
 	nm gzv <Plug>ToggleBacklinks
 	nm gzt <Plug>TagsAddNew
 	nm gzT <Plug>TagsAddSelect
-	nm gzts <Plug>TagsZettelSearch
+	nm gztS <Plug>TagsZettelSearch
 	ino <expr> <c-x><c-u> neuron#insert_zettel_complete(0)
 	ino <expr> <c-x><c-y> neuron#insert_zettel_complete(1)
 end
