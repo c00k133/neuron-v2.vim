@@ -245,7 +245,7 @@ func! neuron#refresh_cache(add_titles)
 	endif
 	
 	let g:_neuron_cache_add_titles = a:add_titles
-	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query --jsonl --zettels'
+	let l:cmd = g:neuron_executable.' -d "'.g:neuron_dir.'" query --zettels'
 	if has('nvim')
 		call jobstart(l:cmd, {
 			\ 'on_stdout': function('s:refresh_cache_callback_nvim'),
@@ -273,7 +273,7 @@ endf
 func! s:refresh_cache_callback_vim(channel, x)
 	let l:data = readfile(g:neuron_tmp_filename)
 	call job_start("rm " . g:neuron_tmp_filename)
-	call s:refresh_cache_callback(l:data)
+	call s:refresh_cache_callback(join(l:data))
 endf
 
 " neovim
@@ -285,12 +285,7 @@ func! s:refresh_cache_callback(data)
 	if (g:neuron_debug_enable)
 		call writefile(split(a:data, "\n", 1), g:neuron_dir . 'query.json')
 	endif
-	let l:zettels = []
-	if a:data isnot v:none
-		for d in a:data
-			call add(l:zettels, json_decode(d))
-		endfor
-	endif
+	let l:zettels = json_decode(a:data)
 	call sort(l:zettels, function('util#zettel_date_sorter'))
 
 	let g:_neuron_zettels_titles_list = {}
